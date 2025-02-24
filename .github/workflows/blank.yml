@@ -1,5 +1,6 @@
-name: Node.js CI Pipeline
+name: Test Workflow
 
+# Trigger the workflow on push to the main branch or on pull requests to the main branch
 on:
   push:
     branches:
@@ -8,25 +9,26 @@ on:
     branches:
       - main
 
+# Define the jobs to run
 jobs:
-  build:
+  test-job:
+    # Run the job on the latest Ubuntu runner
     runs-on: ubuntu-latest
 
+    # Define the steps for the job
     steps:
-      # Step 1: Checkout the code
+      # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      # Step 2: Print "Hello, World!" to the console
+      - name: Run a test script
+        run: echo "DEVOPS ENGINEER!"
 
-      # Step 3: Install dependencies
-      - name: Install dependencies
-        run: npm install
+      # Step 3: List files in the repository (for debugging)
+      - name: List files
+        run: ls -R
 
-      # Step 4: Run tests
-      - name: Run tests
-        run: npm test
+      # Step 4: Print the working directory (for debugging)
+      - name: Print working directory
+        run: pwd
