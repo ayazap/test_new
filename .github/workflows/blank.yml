@@ -1,54 +1,32 @@
-name: Cnbooks Backend Deploy
+name: Node.js CI Pipeline
 
 on:
   push:
     branches:
-      - develop
-permissions:
-  contents: write
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [22.x]
+
     steps:
-      - name: Checkout the repo
-        uses: actions/checkout@v4
-      - name: Set up Nest.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      # Step 1: Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Create .env file
-        run: |
-          touch .env
-          echo "${{secrets.CNBOOKS}}" >> .env
-      - name: Test printing your secret (Remove this step in production)
-        run: |
-          cat .env
-      - name: Deploy using ssh
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            cd /home/ubuntu/cnbooks
-            git pull
-            yarn
-            yarn build
-            pm2 restart cnbook
-            pm2 save
+          node-version: 18
+
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: yarn
-      - name: Build the project
-        run: yarn build
-      # - name: Stop current PM2 process by name
-      #   run: pm2 stop cnbook || true
-      # - name: Start new PM2 process with name
-      #   run: pm2 start npm --name "yuctech" -- run start:dev
-      - name: Restart PM2 process with name
-        run: pm2 restart cnbook
-      - name: Save PM2 process list
-        run: pm2 save
+        run: npm install
+
+      # Step 4: Run tests
+      - name: Run tests
+        run: npm test
