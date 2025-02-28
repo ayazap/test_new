@@ -19,8 +19,8 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.AYAZ5 }}
-          password: ${{ secrets.19G21A04H9@a }}
+          username: ${{ AYAZ5 }}
+          password: ${{ 19G21A04H9@a }}
 
       - name: Build Docker image
         run: docker build -t your-dockerhub-username/your-repo-name:latest .
