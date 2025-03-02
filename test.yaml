@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.ayaz5 }}" | docker login -u "${{ secrets.DOCKERHUB_TOKEN }}" --password-stdin
+        run: echo "${{ ayaz5 }}" | docker login -u "${{ secrets.DOCKERHUB_TOKEN }}" --password-stdin
 
       - name: Build the Docker image
         run: docker build -t mydockerhubusername/myapp:latest .
