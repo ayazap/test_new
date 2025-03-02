@@ -1,10 +1,10 @@
-# Use official Node.js image as base
-FROM node:18-alpine
+# Use full Debian-based Node.js image instead of Alpine
+FROM node:18
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json first
+# Copy package.json and package-lock.json
 COPY package*.json ./
 
 # Install dependencies
@@ -13,7 +13,7 @@ RUN npm install --only=production
 # Copy the rest of the application code
 COPY . .
 
-# Expose the port the app runs on
+# Expose the port your app runs on
 EXPOSE 3000
 
 # Start the application
