@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install dependencies
 RUN npm install --only=production
+RUN npm cache clean --force && npm install --only=production
 
 # Copy the rest of the application code
 COPY . .
